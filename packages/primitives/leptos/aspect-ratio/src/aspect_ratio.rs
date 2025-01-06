@@ -1,80 +1,79 @@
-use leptos::prelude::*;
-use leptos_style::Style;
+use leptos::{prelude::*, html};
+use radix_leptos_primitive::Primitive;
+use leptos_node_ref::AnyNodeRef;
 
-pub struct UseAspectRatioProps {
-    style: Style,
-}
+const DEFAULT_RATIO: f64 = 1.0;
 
-pub struct UseAspectRatioAttrs {
-    style: Style,
-}
+/* -------------------------------------------------------------------------------------------------
+ * AspectRatio
+ * -----------------------------------------------------------------------------------------------*/
 
-pub fn use_aspect_ratio(props: UseAspectRatioProps) -> UseAspectRatioAttrs {
-    UseAspectRatioAttrs {
-        style: props.style.with_defaults([
-            // Ensures children expand in ratio.
-            ("position", "absolute"),
-            ("top", "0px"),
-            ("right", "0px"),
-            ("bottom", "0px"),
-            ("left", "0px"),
-        ]),
-    }
-}
+const NAME: &'static str = "AspectRatio";
 
 #[component]
-pub fn BaseAspectRatio(
-    #[prop(into, optional)] ratio: MaybeProp<f64>,
-    #[prop(optional)] children: Option<Children>,
+#[allow(non_snake_case)]
+pub fn AspectRatio(
+    /// Children passed to the AspectRatio component
+    children: TypedChildrenFn<impl IntoView + 'static>,
+
+    /// Change the default rendered element for the one passed as a child
+    #[prop(into, optional, default = false.into())]
+    as_child: MaybeProp<bool>,
+
+    /// The desired ratio when rendering the content (e.g., 16/9). Defaults to 1.0 if not specified.
+    #[prop(into, optional, default = DEFAULT_RATIO.into())]
+    ratio: MaybeProp<f64>,
+
+    /// Reference to the underlying DOM node
+    #[prop(into, optional)]
+    node_ref: AnyNodeRef,
 ) -> impl IntoView {
-    let ratio = Signal::derive(move || ratio.get().unwrap_or(1.0));
+    // calculates the percent-based padding for the aspect ratio
+    let padding_bottom = Signal::derive(move || {
+        100.0
+            / ratio
+            .get()
+            .unwrap_or(DEFAULT_RATIO)
+            .clamp(f64::EPSILON, f64::MAX)
+    });
+
+    #[cfg(debug_assertions)]
+    Effect::new(move |_| {
+        leptos::logging::log!("[{NAME}] ratio: {:?}", ratio.get());
+        leptos::logging::log!("[{NAME}] as_child: {:?}", as_child.get());
+        leptos::logging::log!("[{NAME}] node_ref: {:?}", node_ref.get());
+    });
 
     view! {
+        // ensures inner element is contained
         <div
-            // Ensures inner element is contained.
             style:position="relative"
-            // Ensures padding bottom trick maths works.
+            // ensures padding bottom trick works
             style:width="100%"
-            style:padding-bottom=move || format!("{}%", 100.0 / ratio.get())
+            style:padding-bottom=move || format!("{}%", padding_bottom.get())
             data-radix-aspect-ratio-wrapper=""
         >
-            {children.map(|children| children())}
+            <Primitive
+                // ensures children expand to fill the ratio
+                element=html::div
+                as_child=as_child
+                node_ref=node_ref
+                children=children
+                style:position="absolute"
+                style:top="0"
+                style:right="0"
+                style:bottom="0"
+                style:left="0"
+            />
         </div>
     }
 }
 
-#[component]
-pub fn AspectRatio(
-    #[prop(into, optional)] ratio: MaybeProp<f64>,
-    #[prop(into, optional)] style: Style,
-    #[prop(optional)] children: Option<Children>,
-) -> impl IntoView {
-    let attrs = use_aspect_ratio(UseAspectRatioProps { style });
+/* -------------------------------------------------------------------------------------------------
+ * Primitive re-exports
+ * -----------------------------------------------------------------------------------------------*/
 
-    view! {
-        <BaseAspectRatio ratio=ratio>
-            <div style={attrs.style}>
-                {children.map(|children| children())}
-            </div>
-        </BaseAspectRatio>
-    }
-}
-
-#[component]
-pub fn AspectRatioAsChild<R, RV>(
-    #[prop(into, optional)] ratio: MaybeProp<f64>,
-    #[prop(into, optional)] style: Style,
-    render: R,
-) -> impl IntoView
-where
-    R: Fn(UseAspectRatioAttrs) -> RV + Send + 'static,
-    RV: IntoView + 'static,
-{
-    let attrs = use_aspect_ratio(UseAspectRatioProps { style });
-
-    view! {
-        <BaseAspectRatio ratio=ratio>
-            {render(attrs)}
-        </BaseAspectRatio>
-    }
+pub mod primitive {
+    pub use super::*;
+    pub use AspectRatio as Root;
 }
