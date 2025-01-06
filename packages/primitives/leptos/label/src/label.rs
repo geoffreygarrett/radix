@@ -6,6 +6,7 @@ use leptos_node_ref::prelude::*;
  * Label
  * -----------------------------------------------------------------------------------------------*/
 
+#[allow(unused)]
 const NAME: &str = "Label";
 
 #[component]
