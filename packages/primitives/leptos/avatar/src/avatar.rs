@@ -66,7 +66,7 @@ pub fn Avatar(
 
     view! {
         <AvatarProvider value=context_value>
-            <Primitive element=leptos::html::span as_child=as_child node_ref=node_ref>
+            <Primitive element=html::span as_child=as_child node_ref=node_ref>
                 {children.with_value(|children| children())}
             </Primitive>
         </AvatarProvider>
@@ -82,6 +82,7 @@ const IMAGE_NAME: &'static str = "AvatarImage";
 #[component]
 #[allow(non_snake_case)]
 pub fn AvatarImage(
+    #[prop(optional)] children: Option<ChildrenFn>,
     #[prop(into, optional)] src: MaybeProp<String>,
     #[prop(into, optional)] referrer_policy: MaybeProp<String>,
     #[prop(into, optional)] on_loading_status_change: MaybeCallback<ImageLoadingStatus>,
@@ -89,6 +90,7 @@ pub fn AvatarImage(
     #[prop(optional)] node_ref: NodeRef<Img>,
 ) -> impl IntoView {
     let context = use_avatar_context(IMAGE_NAME);
+    let children = StoredValue::new(children);
     let loading_status = use_image_loading_status(src.clone(), referrer_policy.clone());
 
     // Update context and callback when loading status changes
@@ -110,7 +112,7 @@ pub fn AvatarImage(
                 attr:src=move || src.get()
                 attr:referrerpolicy=move || referrer_policy.get()
             >
-                {()}
+                {children.with_value(|children| children.as_ref().map(|children| children()))}
             </VoidPrimitive>
         </Show>
     }
