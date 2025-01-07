@@ -1,7 +1,6 @@
 use leptos::prelude::*;
 use leptos::context::Provider;
 use leptos::{html};
-use leptos::html::Img;
 use leptos::wasm_bindgen::closure::Closure;
 use leptos::wasm_bindgen::JsCast;
 use leptos_node_ref::prelude::*;
@@ -87,7 +86,7 @@ pub fn AvatarImage(
     #[prop(into, optional)] referrer_policy: MaybeProp<String>,
     #[prop(into, optional)] on_loading_status_change: MaybeCallback<ImageLoadingStatus>,
     #[prop(into, optional)] as_child: MaybeProp<bool>,
-    #[prop(optional)] node_ref: NodeRef<Img>,
+    #[prop(into, optional)] node_ref: AnyNodeRef,
 ) -> impl IntoView {
     let context = use_avatar_context(IMAGE_NAME);
     let children = StoredValue::new(children);
@@ -129,7 +128,7 @@ pub fn AvatarFallback(
     /// Children (for example, initials or an icon).
     children: TypedChildrenFn<impl IntoView + 'static>,
     /// Delay (in ms) before showing the fallback `<span>`. If no delay, fallback appears immediately.
-    #[prop(into, optional)] delay_ms: MaybeProp<f64>,
+    #[prop(into, optional)] delay_ms: MaybeProp<i32>,
     /// If `true`, renders only its children without a `<span>` wrapper.
     #[prop(into, optional)] as_child: MaybeProp<bool>,
     /// A reference to the `<span>` element for the fallback.
@@ -141,7 +140,7 @@ pub fn AvatarFallback(
     // use_timeout_fn from leptos_use to handle the delay before showing fallback
     let UseTimeoutFnReturn { start, stop, is_pending, .. } = use_timeout_fn(
         move |_| {},
-        delay_ms.get().unwrap_or_default(),
+        delay_ms.get().unwrap_or_default() as f64,
     );
 
     // If no delay is set, fallback can render immediately
