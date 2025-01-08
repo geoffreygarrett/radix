@@ -21,7 +21,7 @@ members = [
     # "packages/primitives/leptos/focus-guards",
     # "packages/primitives/leptos/focus-scope",
     # "packages/primitives/leptos/id",
-    # "packages/primitives/leptos/label",
+    "packages/primitives/leptos/label",
     # "packages/primitives/leptos/menu",
     # "packages/primitives/leptos/popover",
     # "packages/primitives/leptos/popper",
@@ -99,7 +99,7 @@ yew-style = "0.1.4"
 #radix-leptos-focus-guards.path = "./packages/primitives/leptos/focus-guards"
 #radix-leptos-focus-scope.path = "./packages/primitives/leptos/focus-scope"
 #radix-leptos-id.path = "./packages/primitives/leptos/id"
-#radix-leptos-label.path = "./packages/primitives/leptos/label"
+radix-leptos-label.path = "./packages/primitives/leptos/label"
 #radix-leptos-menu.path = "./packages/primitives/leptos/menu"
 #radix-leptos-popper.path = "./packages/primitives/leptos/popper"
 #radix-leptos-portal.path = "./packages/primitives/leptos/portal"
