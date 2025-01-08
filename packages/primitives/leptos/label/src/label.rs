@@ -1,5 +1,6 @@
 use leptos::{ev::MouseEvent, html, prelude::*};
 use radix_leptos_primitive::Primitive;
+use leptos_maybe_callback::MaybeCallback;
 use leptos_node_ref::prelude::*;
 
 /* -------------------------------------------------------------------------------------------------
@@ -14,7 +15,7 @@ const NAME: &str = "Label";
 pub fn Label(
     children: TypedChildrenFn<impl IntoView + 'static>,
     #[prop(into, optional)] as_child: MaybeProp<bool>,
-    #[prop(into, optional)] on_mouse_down: Option<Callback<MouseEvent>>,
+    #[prop(into, optional)] on_mouse_down: MaybeCallback<MouseEvent>,
     #[prop(into, optional)] node_ref: AnyNodeRef,
 ) -> impl IntoView {
     view! {
@@ -33,9 +34,9 @@ pub fn Label(
                     return;
                 }
 
-                if let Some(on_mouse_down) = on_mouse_down {
-                    on_mouse_down.run( event.clone());
-                }
+                // run callback if provided
+                on_mouse_down.run(event.clone());
+
                 // prevent text selection when double-clicking label
                 if !event.default_prevented() && event.detail() > 1 {
                     event.prevent_default();

@@ -12,5 +12,6 @@ version.workspace = true
 [dependencies]
 leptos.workspace = true
 leptos-node-ref.workspace = true
+leptos-maybe-callback.workspace = true
 radix-leptos-primitive.workspace = true
 web-sys.workspace = true
