@@ -109,5 +109,5 @@ fn AvatarIcon() -> impl IntoView {
                fill="currentColor"
            />
        </svg>
-   }
+    }
 }
