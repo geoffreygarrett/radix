@@ -31,7 +31,7 @@ members = [
     # "packages/primitives/leptos/progress",
     # "packages/primitives/leptos/roving-focus",
     # "packages/primitives/leptos/select",
-    # "packages/primitives/leptos/separator",
+    "packages/primitives/leptos/separator",
     # "packages/primitives/leptos/slot",
     # "packages/primitives/leptos/switch",
     # "packages/primitives/leptos/tabs",
@@ -108,7 +108,7 @@ radix-leptos-primitive.path = "./packages/primitives/leptos/primitive"
 #radix-leptos-progress.path = "./packages/primitives/leptos/progress"
 #radix-leptos-roving-focus.path = "./packages/primitives/leptos/roving-focus"
 #radix-leptos-select.path = "./packages/primitives/leptos/select"
-#radix-leptos-separator.path = "./packages/primitives/leptos/separator"
+radix-leptos-separator.path = "./packages/primitives/leptos/separator"
 #radix-leptos-slot.path = "./packages/primitives/leptos/slot"
 #radix-leptos-switch.path = "./packages/primitives/leptos/switch"
 #radix-leptos-tabs.path = "./packages/primitives/leptos/tabs"
