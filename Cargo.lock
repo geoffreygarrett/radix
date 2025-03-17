@@ -433,6 +433,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "cookie"
+version = "0.18.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4ddef33a339a91ea89fb53151bd0a4689cfce27055c291dfa69945475d22c747"
+dependencies = [
+ "percent-encoding",
+ "time",
+ "version_check",
+]
+
+[[package]]
 name = "core-foundation"
 version = "0.9.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -546,6 +557,18 @@ name = "data-encoding"
 version = "2.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e8566979429cf69b49a5c740c60791108e86440e8be149bbea4fe54d2c32d6e2"
+
+[[package]]
+name = "default-struct-builder"
+version = "0.5.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e0df63c21a4383f94bd5388564829423f35c316aed85dc4f8427aded372c7c0d"
+dependencies = [
+ "darling",
+ "proc-macro2",
+ "quote",
+ "syn 2.0.95",
+]
 
 [[package]]
 name = "deranged"
@@ -2180,10 +2203,19 @@ dependencies = [
 ]
 
 [[package]]
-name = "leptos-node-ref"
-version = "0.0.3"
+name = "leptos-maybe-callback"
+version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0497a30ec51e76bdbf9542d29b65399c70d88c0397bc38551d8eff0385847bfc"
+checksum = "cf959771ae2df3c9f1dfded8dfbf6bf0f410dbdf8608ac42d5e639ff40e6d243"
+dependencies = [
+ "leptos",
+]
+
+[[package]]
+name = "leptos-node-ref"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7e47d5ede19fa2fd036c032542b53683fa55140512e5d5d91af3fa3f578a1a6d"
 dependencies = [
  "leptos",
  "send_wrapper",
@@ -2191,12 +2223,45 @@ dependencies = [
 
 [[package]]
 name = "leptos-style"
-version = "0.0.3"
+version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "50860556542aa8466b849e628192d5f99035481ee62ddd09667ee4409eb59128"
+checksum = "a8e30510c7ebb1bf6d28167cd4ac83221f3eaa09077e280c172b56464fd0d38f"
 dependencies = [
  "indexmap",
  "leptos",
+]
+
+[[package]]
+name = "leptos-typed-fallback-show"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "621509b63a15fe1470d65a8b4c326ca470c9d3043fa515d7ab3b3e9b5223a9f7"
+dependencies = [
+ "leptos",
+]
+
+[[package]]
+name = "leptos-use"
+version = "0.15.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bb81bee40ad4fd7c0e8a84ed4b4396b27928d8d91a271c3cca9de6ba58f1cafc"
+dependencies = [
+ "cfg-if",
+ "codee",
+ "cookie",
+ "default-struct-builder",
+ "futures-util",
+ "gloo-timers 0.3.0",
+ "js-sys",
+ "lazy_static",
+ "leptos",
+ "paste",
+ "send_wrapper",
+ "thiserror 2.0.9",
+ "unic-langid",
+ "wasm-bindgen",
+ "wasm-bindgen-futures",
+ "web-sys",
 ]
 
 [[package]]
@@ -2993,6 +3058,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "radix-leptos-avatar"
+version = "0.0.2"
+dependencies = [
+ "leptos",
+ "leptos-maybe-callback",
+ "leptos-node-ref",
+ "leptos-use",
+ "radix-leptos-context",
+ "radix-leptos-primitive",
+ "web-sys",
+]
+
+[[package]]
 name = "radix-leptos-book-icons"
 version = "0.0.2"
 dependencies = [
@@ -3016,7 +3094,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "radix-leptos-direction"
+name = "radix-leptos-context"
 version = "0.0.2"
 dependencies = [
  "leptos",
@@ -3024,13 +3102,6 @@ dependencies = [
 
 [[package]]
 name = "radix-leptos-icons"
-version = "0.0.2"
-dependencies = [
- "leptos",
-]
-
-[[package]]
-name = "radix-leptos-id"
 version = "0.0.2"
 dependencies = [
  "leptos",
@@ -3045,6 +3116,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "radix-leptos-primitive"
+version = "0.0.2"
+dependencies = [
+ "leptos",
+ "leptos-node-ref",
+ "leptos-typed-fallback-show",
+]
+
+[[package]]
 name = "radix-leptos-stories"
 version = "0.0.2"
 dependencies = [
@@ -3056,42 +3136,10 @@ dependencies = [
  "radix-leptos-accessible-icon",
  "radix-leptos-arrow",
  "radix-leptos-aspect-ratio",
+ "radix-leptos-avatar",
  "radix-leptos-label",
  "radix-leptos-visually-hidden",
  "tailwind_fuse",
- "web-sys",
-]
-
-[[package]]
-name = "radix-leptos-use-controllable-state"
-version = "0.0.2"
-dependencies = [
- "leptos",
-]
-
-[[package]]
-name = "radix-leptos-use-escape-keydown"
-version = "0.0.2"
-dependencies = [
- "leptos",
- "send_wrapper",
- "web-sys",
-]
-
-[[package]]
-name = "radix-leptos-use-previous"
-version = "0.0.2"
-dependencies = [
- "leptos",
-]
-
-[[package]]
-name = "radix-leptos-use-size"
-version = "0.0.2"
-dependencies = [
- "leptos",
- "leptos-node-ref",
- "send_wrapper",
  "web-sys",
 ]
 
@@ -4674,6 +4722,24 @@ name = "typenum"
 version = "1.17.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "42ff0bf0c66b8238c6f3b578df37d0b7848e55df8577b3f74f92a69acceeb825"
+
+[[package]]
+name = "unic-langid"
+version = "0.9.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "23dd9d1e72a73b25e07123a80776aae3e7b0ec461ef94f9151eed6ec88005a44"
+dependencies = [
+ "unic-langid-impl",
+]
+
+[[package]]
+name = "unic-langid-impl"
+version = "0.9.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0a5422c1f65949306c99240b81de9f3f15929f5a8bfe05bb44b034cc8bf593e5"
+dependencies = [
+ "tinystr",
+]
 
 [[package]]
 name = "unicode-ident"
